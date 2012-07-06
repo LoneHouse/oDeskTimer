@@ -1,0 +1,385 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		30F7D6C315598A4500F19DCB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F7D6C215598A4500F19DCB /* Cocoa.framework */; };
+		30F7D6CD15598A4500F19DCB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F7D6CB15598A4500F19DCB /* InfoPlist.strings */; };
+		30F7D6CF15598A4500F19DCB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F7D6CE15598A4500F19DCB /* main.m */; };
+		30F7D6D315598A4500F19DCB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 30F7D6D115598A4500F19DCB /* Credits.rtf */; };
+		30F7D6D915598A4600F19DCB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30F7D6D715598A4600F19DCB /* MainMenu.xib */; };
+		30F7D6E3155993CD00F19DCB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F7D6E2155993CD00F19DCB /* WebKit.framework */; };
+		4F4512D21598A5CB002498F7 /* oDeckIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4F4512D11598A5CB002498F7 /* oDeckIcon.icns */; };
+		4FDE203D1590D19E00948B47 /* ODPropertyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE203C1590D19E00948B47 /* ODPropertyManager.m */; };
+		4FFB3DC615949908009012BA /* ODPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFB3DC415949908009012BA /* ODPreferencesController.m */; };
+		4FFB3DC715949908009012BA /* ODPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FFB3DC515949908009012BA /* ODPreferencesController.xib */; };
+		619D7520155D2EC1003B4743 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 619D751F155D2EC1003B4743 /* AppDelegate.m */; };
+		61AD17C2159EE2C500482574 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61AD17C1159EE2C500482574 /* ApplicationServices.framework */; };
+		61AD17C5159EEF1200482574 /* ODDraw2dManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 61AD17C4159EEF1200482574 /* ODDraw2dManager.m */; };
+		61C72B72156170B3007FC49B /* oDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C72B71156170B3007FC49B /* oDesk.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		30F7D6BE15598A4500F19DCB /* oDeskTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oDeskTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		30F7D6C215598A4500F19DCB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		30F7D6C515598A4500F19DCB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		30F7D6C615598A4500F19DCB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		30F7D6C715598A4500F19DCB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		30F7D6CA15598A4500F19DCB /* oDeskTimer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "oDeskTimer-Info.plist"; sourceTree = "<group>"; };
+		30F7D6CC15598A4500F19DCB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30F7D6CE15598A4500F19DCB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		30F7D6D015598A4500F19DCB /* oDeskTimer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "oDeskTimer-Prefix.pch"; sourceTree = "<group>"; };
+		30F7D6D215598A4500F19DCB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		30F7D6D815598A4600F19DCB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		30F7D6E2155993CD00F19DCB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		4F4512D11598A5CB002498F7 /* oDeckIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = oDeckIcon.icns; path = ../oDeckIcon.icns; sourceTree = "<group>"; };
+		4FDE203B1590D19E00948B47 /* ODPropertyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODPropertyManager.h; sourceTree = "<group>"; };
+		4FDE203C1590D19E00948B47 /* ODPropertyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODPropertyManager.m; sourceTree = "<group>"; };
+		4FFB3DC315949907009012BA /* ODPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODPreferencesController.h; sourceTree = "<group>"; };
+		4FFB3DC415949908009012BA /* ODPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODPreferencesController.m; sourceTree = "<group>"; };
+		4FFB3DC515949908009012BA /* ODPreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ODPreferencesController.xib; sourceTree = "<group>"; };
+		619D751E155D2EC1003B4743 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		619D751F155D2EC1003B4743 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		61AD17C1159EE2C500482574 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		61AD17C3159EEF1200482574 /* ODDraw2dManager.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ODDraw2dManager.h; sourceTree = "<group>"; };
+		61AD17C4159EEF1200482574 /* ODDraw2dManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODDraw2dManager.m; sourceTree = "<group>"; };
+		61C72B70156170B3007FC49B /* oDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oDesk.h; sourceTree = "<group>"; };
+		61C72B71156170B3007FC49B /* oDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = oDesk.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		30F7D6BB15598A4500F19DCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61AD17C2159EE2C500482574 /* ApplicationServices.framework in Frameworks */,
+				30F7D6E3155993CD00F19DCB /* WebKit.framework in Frameworks */,
+				30F7D6C315598A4500F19DCB /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		30F7D6B315598A4500F19DCB = {
+			isa = PBXGroup;
+			children = (
+				30F7D6C815598A4500F19DCB /* oDeskTimer */,
+				30F7D6C115598A4500F19DCB /* Frameworks */,
+				30F7D6BF15598A4500F19DCB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		30F7D6BF15598A4500F19DCB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				30F7D6BE15598A4500F19DCB /* oDeskTimer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		30F7D6C115598A4500F19DCB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30F7D6C215598A4500F19DCB /* Cocoa.framework */,
+				30F7D6C415598A4500F19DCB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		30F7D6C415598A4500F19DCB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				61AD17C1159EE2C500482574 /* ApplicationServices.framework */,
+				30F7D6E2155993CD00F19DCB /* WebKit.framework */,
+				30F7D6C515598A4500F19DCB /* AppKit.framework */,
+				30F7D6C615598A4500F19DCB /* CoreData.framework */,
+				30F7D6C715598A4500F19DCB /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		30F7D6C815598A4500F19DCB /* oDeskTimer */ = {
+			isa = PBXGroup;
+			children = (
+				4FDE20381590D09700948B47 /* Classes */,
+				619D751D155D2EAF003B4743 /* AppDelegate */,
+				619D7518155D2E82003B4743 /* oDeskSDK */,
+				30F7D6D715598A4600F19DCB /* MainMenu.xib */,
+				30F7D6C915598A4500F19DCB /* Supporting Files */,
+			);
+			path = oDeskTimer;
+			sourceTree = "<group>";
+		};
+		30F7D6C915598A4500F19DCB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F4512D11598A5CB002498F7 /* oDeckIcon.icns */,
+				30F7D6CA15598A4500F19DCB /* oDeskTimer-Info.plist */,
+				30F7D6CB15598A4500F19DCB /* InfoPlist.strings */,
+				30F7D6CE15598A4500F19DCB /* main.m */,
+				30F7D6D015598A4500F19DCB /* oDeskTimer-Prefix.pch */,
+				30F7D6D115598A4500F19DCB /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FDE20381590D09700948B47 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				61AD17BC159EE1A900482574 /* ODDraw2dManager */,
+				4FFB3DBC15945EA4009012BA /* PreferencesWindow */,
+				4FDE20391590D09700948B47 /* Managers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		4FDE20391590D09700948B47 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				4FDE203B1590D19E00948B47 /* ODPropertyManager.h */,
+				4FDE203C1590D19E00948B47 /* ODPropertyManager.m */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		4FFB3DBC15945EA4009012BA /* PreferencesWindow */ = {
+			isa = PBXGroup;
+			children = (
+				4FFB3DC315949907009012BA /* ODPreferencesController.h */,
+				4FFB3DC415949908009012BA /* ODPreferencesController.m */,
+				4FFB3DC515949908009012BA /* ODPreferencesController.xib */,
+			);
+			path = PreferencesWindow;
+			sourceTree = "<group>";
+		};
+		619D7518155D2E82003B4743 /* oDeskSDK */ = {
+			isa = PBXGroup;
+			children = (
+				61C72B70156170B3007FC49B /* oDesk.h */,
+				61C72B71156170B3007FC49B /* oDesk.m */,
+			);
+			path = oDeskSDK;
+			sourceTree = "<group>";
+		};
+		619D751D155D2EAF003B4743 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				619D751E155D2EC1003B4743 /* AppDelegate.h */,
+				619D751F155D2EC1003B4743 /* AppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		61AD17BC159EE1A900482574 /* ODDraw2dManager */ = {
+			isa = PBXGroup;
+			children = (
+				61AD17C3159EEF1200482574 /* ODDraw2dManager.h */,
+				61AD17C4159EEF1200482574 /* ODDraw2dManager.m */,
+			);
+			path = ODDraw2dManager;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		30F7D6BD15598A4500F19DCB /* oDeskTimer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30F7D6DC15598A4600F19DCB /* Build configuration list for PBXNativeTarget "oDeskTimer" */;
+			buildPhases = (
+				30F7D6BA15598A4500F19DCB /* Sources */,
+				30F7D6BB15598A4500F19DCB /* Frameworks */,
+				30F7D6BC15598A4500F19DCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = oDeskTimer;
+			productName = oDeskTimer;
+			productReference = 30F7D6BE15598A4500F19DCB /* oDeskTimer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		30F7D6B515598A4500F19DCB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Rus Wizards";
+			};
+			buildConfigurationList = 30F7D6B815598A4500F19DCB /* Build configuration list for PBXProject "oDeskTimer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 30F7D6B315598A4500F19DCB;
+			productRefGroup = 30F7D6BF15598A4500F19DCB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				30F7D6BD15598A4500F19DCB /* oDeskTimer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		30F7D6BC15598A4500F19DCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30F7D6CD15598A4500F19DCB /* InfoPlist.strings in Resources */,
+				30F7D6D315598A4500F19DCB /* Credits.rtf in Resources */,
+				30F7D6D915598A4600F19DCB /* MainMenu.xib in Resources */,
+				4FFB3DC715949908009012BA /* ODPreferencesController.xib in Resources */,
+				4F4512D21598A5CB002498F7 /* oDeckIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		30F7D6BA15598A4500F19DCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30F7D6CF15598A4500F19DCB /* main.m in Sources */,
+				619D7520155D2EC1003B4743 /* AppDelegate.m in Sources */,
+				61C72B72156170B3007FC49B /* oDesk.m in Sources */,
+				4FDE203D1590D19E00948B47 /* ODPropertyManager.m in Sources */,
+				4FFB3DC615949908009012BA /* ODPreferencesController.m in Sources */,
+				61AD17C5159EEF1200482574 /* ODDraw2dManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		30F7D6CB15598A4500F19DCB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30F7D6CC15598A4500F19DCB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		30F7D6D115598A4500F19DCB /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30F7D6D215598A4500F19DCB /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		30F7D6D715598A4600F19DCB /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30F7D6D815598A4600F19DCB /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		30F7D6DA15598A4600F19DCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		30F7D6DB15598A4600F19DCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		30F7D6DD15598A4600F19DCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "oDeskTimer/oDeskTimer-Prefix.pch";
+				INFOPLIST_FILE = "oDeskTimer/oDeskTimer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		30F7D6DE15598A4600F19DCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "oDeskTimer/oDeskTimer-Prefix.pch";
+				INFOPLIST_FILE = "oDeskTimer/oDeskTimer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		30F7D6B815598A4500F19DCB /* Build configuration list for PBXProject "oDeskTimer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30F7D6DA15598A4600F19DCB /* Debug */,
+				30F7D6DB15598A4600F19DCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30F7D6DC15598A4600F19DCB /* Build configuration list for PBXNativeTarget "oDeskTimer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30F7D6DD15598A4600F19DCB /* Debug */,
+				30F7D6DE15598A4600F19DCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 30F7D6B515598A4500F19DCB /* Project object */;
+}
