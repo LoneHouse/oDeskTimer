@@ -2,7 +2,7 @@
 //  draw2dTXT.m
 //  oDeskTimer
 //
-//  Created by Evgene Syrtcov on 30.06.12.
+//  Created by Vlad Smelov on 30.06.12.
 //  Copyright (c) 2012 Rus Wizards. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
     CGColorRef color = CGColorCreate(colorspace, components);
     CGContextSetStrokeColorWithColor(context, color);
 	//квадрат в котором рисется круг
-    CGRect rectangle = CGRectMake(53.0f, 6.0f, 10.0f, 10.0f);
+    CGRect rectangle = CGRectMake(53.0f, 6.0f, 10.30f, 10.0f);
 	//добавляем круг на вью
     CGContextAddEllipseInRect(context, rectangle);
     CGContextStrokePath(context);

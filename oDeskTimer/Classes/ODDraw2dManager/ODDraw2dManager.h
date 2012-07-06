@@ -2,7 +2,7 @@
 //  draw2dTXT.h
 //  oDeskTimer
 //
-//  Created by Evgene Syrtcov on 30.06.12.
+//  Created by Vlad Smelov on 30.06.12.
 //  Copyright (c) 2012 Rus Wizards. All rights reserved.
 //
 

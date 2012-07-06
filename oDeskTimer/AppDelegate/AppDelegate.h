@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  oDeskTimer
 //
-//  Created by Roman Sidorakin on 08.05.12.
+//  Created by Vlad Smelov on 08.05.12.
 //  Copyright (c) 2012 Rus Wizards. All rights reserved.
 //
 

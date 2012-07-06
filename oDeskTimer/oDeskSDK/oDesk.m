@@ -242,7 +242,6 @@
 	if([[NSString stringWithFormat:@"%.0f",minutes] length]==1)
 	{
 		[total insertString:@"0" atIndex:4];
-		
 	}
 	
 	return total;
