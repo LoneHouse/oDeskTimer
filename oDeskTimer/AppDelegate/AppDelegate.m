@@ -12,16 +12,16 @@
 
 @interface AppDelegate ()
 {
-	ODPreferencesController * preferencesController;
+	ODPreferencesController * preferencesController;	
 }
 
-
+@property (nonatomic, assign) BOOL isRefreshInProgress;
 @end
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize oDeskTimer;
+@synthesize oDeskTimer, isRefreshInProgress;
 @synthesize timer, login, pass;
 @synthesize TextFieldPass, TextFieldLogin;
 
@@ -34,6 +34,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	isRefreshInProgress = NO;
+	
 	[self.TimerPanel orderOut:nil];
 	preferencesController = [[ODPreferencesController alloc] initWithWindowNibName:@"ODPreferencesController"];
 	
@@ -56,8 +58,9 @@
 
 -(void)refreshTime{
 #define RWG @"kudos_soft"
-	if(login)
+	if(login && !isRefreshInProgress)
 	{
+		isRefreshInProgress = YES;
 		[self.inProgress      startAnimation:self];
 		[self.inProgressWeek  startAnimation:self];
 		[self.inProgressMonth startAnimation:self];
@@ -152,6 +155,16 @@
 }
 
 -(void) updateView{
+	//Ограничение на повторный вызов рефреша во время самого рефреша
+	static int i = 0;
+	i++;
+	
+	if (i == 3) 
+	{
+		i = 0;
+		isRefreshInProgress = NO;
+	}
+	
 	NSRect panelRect = self.TimerPanel.frame;
 	[self.TimerPanel setFrame:panelRect display:YES animate:NO];
 }
