@@ -24,7 +24,6 @@
 -(id)init{
 	if(self==[super init])
 	{
-
 	}
 	return self;
 }
@@ -90,8 +89,8 @@
 	//get time by every counter and summ it
 	for (int i=0; i<[counterNames count]; i++) {
 		//get page with time
-		NSString * str=[self loginClassicTimeAnalyze:[self URLEncodedString:[counterNames objectAtIndex:i]]];
-		NSLog(@"%@",str);
+//		NSString * str=[self loginClassicTimeAnalyze:[self URLEncodedString:[counterNames objectAtIndex:i]]];
+//		NSLog(@"%@",str);
 		//GET TIME
 		NSString * time=[self getTimeByDay: self.login counter:[counterNames objectAtIndex:i] type:type];
 		//add counter time to dictionary
@@ -111,7 +110,7 @@
             app.totalTime4 = [oDesk convertTimeToString:totalInterval];
     }
 	
-    NSLog(@"%@", [oDesk convertTimeToString:totalInterval]);
+//    NSLog(@"%@", [oDesk convertTimeToString:totalInterval]);
 	
 	//return dictionary with counters and times
 	return timesByCounter;
@@ -138,7 +137,7 @@
 		
 		NSString * counterName=[content substringWithRange:range];
 		[resultCounters addObject:counterName];
-		NSLog(@"%@",counterName);
+//		NSLog(@"%@",counterName);
 	}
 	return resultCounters;
 }
@@ -188,16 +187,16 @@
             NSDateFormatter *formatterOld = [[NSDateFormatter alloc] init];
             [formatterOld setDateFormat:@"MM/01/YYYY"];
             NSString *stringOldDate = [formatterOld stringFromDate:dateOld];
-            NSLog(@"%@",currentDate);
+//            NSLog(@"%@",currentDate);
             url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@", [self URLEncodedString:counter], logn,stringOldDate, currentDate];
-            NSLog(@"%@", url);
+//            NSLog(@"%@", url);
             
         }
     }
 	NSString* variables = [NSString stringWithFormat:@"selected_company=%@",counter];
 	NSString* strResult= [self doRequest:variables URL:url];
 	
-	NSLog(@"%@",strResult);
+//	NSLog(@"%@",strResult);
 	//create regular expression
 	NSError *error;
 	NSRegularExpression* expression =[NSRegularExpression regularExpressionWithPattern:@"<b>\\d{2,}:\\d{2}</b>" 

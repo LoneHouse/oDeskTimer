@@ -59,10 +59,7 @@
 		self.hoursPerWeek  = [defaults integerForKey:kHoursPerWeek];
 		self.hoursPerDay   = [defaults integerForKey:kHoursPerDay ];
 		self.refreshTime   = [defaults integerForKey:kRefreshTime ];
-		
 	}
-	
-	
 }
 
 +(void)load
