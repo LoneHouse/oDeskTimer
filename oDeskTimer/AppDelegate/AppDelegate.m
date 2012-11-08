@@ -111,11 +111,11 @@
 				
 				[self.inProgress stopAnimation:self];
 				
-				//[self.timeItem setTitle:self.totalTime2];
+				[self.timeItem setTitle:self.totalTime2];
 				//set time to menu
-				NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:totalTime2];
-				[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
-				[self.timeItem setAttributedTitle:menuAttributedTitle];
+//				NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:totalTime2];
+//				[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
+//				[self.timeItem setAttributedTitle:menuAttributedTitle];
 				
 				[self updateView];         
 			});
