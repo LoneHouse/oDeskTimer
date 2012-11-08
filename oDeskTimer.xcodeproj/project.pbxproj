@@ -45,7 +45,7 @@
 		619D751E155D2EC1003B4743 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		619D751F155D2EC1003B4743 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		61AD17C1159EE2C500482574 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		61AD17C3159EEF1200482574 /* ODDraw2dManager.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ODDraw2dManager.h; sourceTree = "<group>"; };
+		61AD17C3159EEF1200482574 /* ODDraw2dManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODDraw2dManager.h; sourceTree = "<group>"; };
 		61AD17C4159EEF1200482574 /* ODDraw2dManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODDraw2dManager.m; sourceTree = "<group>"; };
 		61C72B70156170B3007FC49B /* oDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oDesk.h; sourceTree = "<group>"; };
 		61C72B71156170B3007FC49B /* oDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = oDesk.m; sourceTree = "<group>"; };
@@ -341,6 +341,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "oDeskTimer/oDeskTimer-Prefix.pch";
 				INFOPLIST_FILE = "oDeskTimer/oDeskTimer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -353,6 +354,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "oDeskTimer/oDeskTimer-Prefix.pch";
 				INFOPLIST_FILE = "oDeskTimer/oDeskTimer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

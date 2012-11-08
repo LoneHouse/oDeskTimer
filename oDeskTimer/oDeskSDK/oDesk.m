@@ -40,8 +40,8 @@
 -(NSString*)login:(NSString *)name password:(NSString *)password{
 	self.login=[NSString stringWithString:name];
 	//create data to post
-	NSString* variables = [NSString stringWithFormat:@"login=%@&password=%@&action=%@",name,password,@"login"];
-	return [self doRequest:variables URL:@"https://www.odesk.com/login.php"];
+	NSString* variables = [NSString stringWithFormat:@"username=%@&password=%@&action=%@",name,password,@"login"];
+	return [self doRequest:variables URL:@"https://www.odesk.com/login"];
 }
 
 //make some request
@@ -51,7 +51,7 @@
 	[params dataUsingEncoding:NSASCIIStringEncoding
 			allowLossyConversion:YES];
 	NSString* postLength =
-	[NSString stringWithFormat:@"%d", [postVariables length]];
+	[NSString stringWithFormat:@"%ld", [postVariables length]];
 	//create request
 	NSMutableURLRequest * request=[[NSMutableURLRequest alloc]init];
 	[request setURL:[NSURL URLWithString:url]];
@@ -109,9 +109,6 @@
         else
             app.totalTime4 = [oDesk convertTimeToString:totalInterval];
     }
-	
-//    NSLog(@"%@", [oDesk convertTimeToString:totalInterval]);
-	
 	//return dictionary with counters and times
 	return timesByCounter;
 }
