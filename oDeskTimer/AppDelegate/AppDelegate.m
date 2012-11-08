@@ -31,6 +31,31 @@
 @synthesize inProgress, inProgressWeek, inProgressMonth, totalTime2, totalTime3, totalTime4;
 @synthesize rwgTextFieldWeek, otherTinersTextFieldWeek, totalTimeWeek;
 @synthesize rwgTextFieldMounth, otherTinersTextFieldMounth, totalTimeMounth;
+@synthesize timeItem,appMenu,menuFont;
+
+- (void)activateStatusMenu
+
+{
+    NSStatusBar *bar = [NSStatusBar systemStatusBar];
+    self.timeItem = [bar statusItemWithLength:NSVariableStatusItemLength];
+    //[self.timeItem setTitle: NSLocalizedString(@"00:00",@"")];
+	
+	//setup attributed title
+	NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:@"00:00"];
+	menuFont=[NSFont fontWithName:@"DS-Digital-Bold" size: 18];
+	
+	[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
+	[self.timeItem setAttributedTitle:menuAttributedTitle];
+	
+	NSImage * icon = [NSImage imageNamed:@"oDeckIcon.icns"];
+	NSBitmapImageRep * smallIconRep = [icon.representations objectAtIndex:1];
+	NSImage *smallImg=[[NSImage alloc]initWithSize:[smallIconRep size] ];
+	[smallImg addRepresentation:smallIconRep];
+	[self.timeItem setImage:smallImg];
+    [self.timeItem setHighlightMode:NO];
+    [self.timeItem setMenu:self.appMenu];
+}
+
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -49,6 +74,8 @@
 	if ([ODPropertyManager manager].isAutoLogin) {
 		[self statrTimer:self];
 	}
+	
+	[self activateStatusMenu];
 }
 
 -(void)applicationWillTerminate:(NSNotification *)notification
@@ -83,6 +110,12 @@
 				[self.otherTinersTextField setStringValue:otherTime];
 				
 				[self.inProgress stopAnimation:self];
+				
+				//[self.timeItem setTitle:self.totalTime2];
+				//set time to menu
+				NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:totalTime2];
+				[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
+				[self.timeItem setAttributedTitle:menuAttributedTitle];
 				
 				[self updateView];         
 			});

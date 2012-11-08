@@ -12,7 +12,10 @@
 
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-
+//менюшка сверху
+@property (strong) IBOutlet NSMenu *appMenu;
+@property(strong) NSStatusItem *timeItem;
+@property(strong) NSFont * menuFont;
 // основное окно
 @property (nonatomic, strong) IBOutlet NSWindow *window;
 

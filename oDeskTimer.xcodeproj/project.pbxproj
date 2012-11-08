@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		309EA997164C1E7900109565 /* DS_DIGI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 309EA996164C1E7900109565 /* DS_DIGI.TTF */; };
+		309EA9B3164C1F7700109565 /* DS_DIGIB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 309EA9B2164C1F7700109565 /* DS_DIGIB.TTF */; };
 		30F7D6C315598A4500F19DCB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F7D6C215598A4500F19DCB /* Cocoa.framework */; };
 		30F7D6CD15598A4500F19DCB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F7D6CB15598A4500F19DCB /* InfoPlist.strings */; };
 		30F7D6CF15598A4500F19DCB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F7D6CE15598A4500F19DCB /* main.m */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		309EA996164C1E7900109565 /* DS_DIGI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = DS_DIGI.TTF; sourceTree = "<group>"; };
+		309EA9B2164C1F7700109565 /* DS_DIGIB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = DS_DIGIB.TTF; sourceTree = "<group>"; };
 		30F7D6BE15598A4500F19DCB /* oDeskTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oDeskTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F7D6C215598A4500F19DCB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		30F7D6C515598A4500F19DCB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -118,6 +122,8 @@
 		30F7D6C915598A4500F19DCB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				309EA9B2164C1F7700109565 /* DS_DIGIB.TTF */,
+				309EA996164C1E7900109565 /* DS_DIGI.TTF */,
 				4F4512D11598A5CB002498F7 /* oDeckIcon.icns */,
 				30F7D6CA15598A4500F19DCB /* oDeskTimer-Info.plist */,
 				30F7D6CB15598A4500F19DCB /* InfoPlist.strings */,
@@ -240,6 +246,8 @@
 				30F7D6D915598A4600F19DCB /* MainMenu.xib in Resources */,
 				4FFB3DC715949908009012BA /* ODPreferencesController.xib in Resources */,
 				4F4512D21598A5CB002498F7 /* oDeckIcon.icns in Resources */,
+				309EA997164C1E7900109565 /* DS_DIGI.TTF in Resources */,
+				309EA9B3164C1F7700109565 /* DS_DIGIB.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

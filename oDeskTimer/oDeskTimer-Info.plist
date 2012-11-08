@@ -30,6 +30,11 @@
 	<string>Copyright © 2012 Rus Wizards. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DS_DIGI.TTF</string>
+		<string>DS_DIGIB.TTF</string>
+	</array>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
