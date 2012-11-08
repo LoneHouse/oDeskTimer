@@ -179,6 +179,8 @@
 	//запоминаем данные
 	self.login = [self.TextFieldLogin stringValue];
 	self.pass = [self.TextFieldPass stringValue];
+    [ODPropertyManager manager].login = self.login;
+    [ODPropertyManager manager].password = self.pass;
 	NSLog(@"%@ %@", self.login, self.pass);
 	[self.oDeskTimer login:self.login password:self.pass];
 	
