@@ -33,19 +33,35 @@
 @synthesize rwgTextFieldMounth, otherTinersTextFieldMounth, totalTimeMounth;
 @synthesize timeItem,appMenu,menuFont;
 
+-(void) loadFonts{
+	NSString *fontFilePath = [[NSBundle mainBundle] resourcePath];
+	NSURL *fontsURL = [NSURL fileURLWithPath:fontFilePath];
+	NSLog(@"%@",fontFilePath);
+	if(fontsURL != nil)
+	{
+		OSStatus status;
+		FSRef fsRef;
+		CFURLGetFSRef((CFURLRef)fontsURL, &fsRef);
+		status = ATSFontActivateFromFileReference(&fsRef, kATSFontContextLocal, kATSFontFormatUnspecified,
+												  NULL, kATSOptionFlagsDefault, NULL);
+		if (status != noErr)
+		{
+			NSLog(@"Failed to acivate fonts!");
+
+		}
+	}
+}
+
 - (void)activateStatusMenu
 
 {
+	[self loadFonts];
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
     self.timeItem = [bar statusItemWithLength:NSVariableStatusItemLength];
     //[self.timeItem setTitle: NSLocalizedString(@"00:00",@"")];
+	menuFont=[NSFont fontWithName:@"DS-Digital" size: 18];
 	
-	//setup attributed title
-	NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:@"00:00"];
-	menuFont=[NSFont fontWithName:@"DS-Digital-Bold" size: 18];
-	
-	[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
-	[self.timeItem setAttributedTitle:menuAttributedTitle];
+	[self updateTimeOnMenu:@"00:00"];
 	
 	NSImage * icon = [NSImage imageNamed:@"oDeckIcon.icns"];
 	NSBitmapImageRep * smallIconRep = [icon.representations objectAtIndex:1];
@@ -54,6 +70,15 @@
 	[self.timeItem setImage:smallImg];
     [self.timeItem setHighlightMode:NO];
     [self.timeItem setMenu:self.appMenu];
+}
+
+-(void) updateTimeOnMenu:(NSString *) text{
+	[self loadFonts];
+	//setup attributed title
+	NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:text];
+	[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
+	[self.timeItem setAttributedTitle:menuAttributedTitle];
+
 }
 
 
@@ -112,10 +137,10 @@
 				[self.inProgress stopAnimation:self];
 				
 				[self.timeItem setTitle:self.totalTime2];
+				
 				//set time to menu
-//				NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:totalTime2];
-//				[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
-//				[self.timeItem setAttributedTitle:menuAttributedTitle];
+				[self updateTimeOnMenu:totalTime2];
+
 				
 				[self updateView];         
 			});

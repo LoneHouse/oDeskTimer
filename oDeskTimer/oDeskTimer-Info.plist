@@ -35,6 +35,8 @@
 		<string>DS_DIGI.TTF</string>
 		<string>DS_DIGIB.TTF</string>
 	</array>
+	<key>ATSApplicationFontsPath</key>
+	<string></string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
