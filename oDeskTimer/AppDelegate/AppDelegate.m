@@ -41,7 +41,7 @@
 	{
 		OSStatus status;
 		FSRef fsRef;
-		CFURLGetFSRef((CFURLRef)fontsURL, &fsRef);
+		CFURLGetFSRef((__bridge CFURLRef)fontsURL, &fsRef);
 		status = ATSFontActivateFromFileReference(&fsRef, kATSFontContextLocal, kATSFontFormatUnspecified,
 												  NULL, kATSOptionFlagsDefault, NULL);
 		if (status != noErr)
