@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ODTimerWindowController : NSWindowController
+@interface ODTimerWindowController : NSWindowController 
 
 @end

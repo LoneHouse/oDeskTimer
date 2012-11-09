@@ -24,6 +24,11 @@
     return self;
 }
 
+- (void) setCounters:(NSArray*)counters
+{
+    
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];

@@ -39,6 +39,7 @@
 - (IBAction) statrTimer:(id)sender;
 - (IBAction) forcedRefresh: (id)sender;
 - (void) refreshTime;
+- (IBAction)showFullTimerWindow:(id)sender;
 
 // Черненькая клевенькая панелька
 @property (nonatomic, strong) IBOutlet NSPanel *TimerPanel;

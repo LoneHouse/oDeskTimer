@@ -9,10 +9,12 @@
 #import "AppDelegate.h"
 #import "ODPropertyManager.h"
 #import "ODPreferencesController.h"
+#import "ODTimerWindowController.h"
 
 @interface AppDelegate ()
 {
-	ODPreferencesController * preferencesController;	
+	ODPreferencesController * preferencesController;
+	ODTimerWindowController * timerWindowController;
 }
 
 @property (nonatomic, assign) BOOL isRefreshInProgress;
@@ -184,6 +186,12 @@
 		});
 		
 	}
+}
+
+- (IBAction)showFullTimerWindow:(id)sender {
+    timerWindowController = [[ODTimerWindowController alloc] initWithWindowNibName:@"ODTimerWindowController"];
+    [timerWindowController showWindow:nil];
+    
 }
 
 //принудительно обновляем таймеры
