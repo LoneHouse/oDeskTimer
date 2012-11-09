@@ -63,11 +63,8 @@
 	
 	[self updateTimeOnMenu:@"00:00"];
 	
-	NSImage * icon = [NSImage imageNamed:@"oDeckIcon.icns"];
-	NSBitmapImageRep * smallIconRep = [icon.representations objectAtIndex:1];
-	NSImage *smallImg=[[NSImage alloc]initWithSize:[smallIconRep size] ];
-	[smallImg addRepresentation:smallIconRep];
-	[self.timeItem setImage:smallImg];
+	NSImage * icon = [NSImage imageNamed:@"oDeckIcon_menubar.tiff"];
+	[self.timeItem setImage:icon];
     [self.timeItem setHighlightMode:NO];
     [self.timeItem setMenu:self.appMenu];
 }
