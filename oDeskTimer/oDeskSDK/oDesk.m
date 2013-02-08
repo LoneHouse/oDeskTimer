@@ -145,8 +145,8 @@
 	return [self doRequest:variables URL:@"https://www.odesk.com/team/scripts/login?initial=1&after_login_location=http%3A%2F%2Fwww.odesk.com%2Fteam%2Fscripts%2Freport"];
 }
 
--(NSString *)getTimeByDay:(NSString *)logn counter:(NSString *)counter type:(NSString *)type{
-	
+-(NSString *)getTimeByDay:(NSString *)logn counter:(NSString *)counter type:(NSString *)type
+{	
     NSString * url;
     if([type isEqualToString:@"day"])
     {
@@ -184,9 +184,9 @@
             NSDateFormatter *formatterOld = [[NSDateFormatter alloc] init];
             [formatterOld setDateFormat:@"MM/01/YYYY"];
             NSString *stringOldDate = [formatterOld stringFromDate:dateOld];
-//            NSLog(@"%@",currentDate);
+//			NSLog(@"%@",currentDate);
             url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@", [self URLEncodedString:counter], logn,stringOldDate, currentDate];
-//            NSLog(@"%@", url);
+//			NSLog(@"%@", url);
             
         }
     }
@@ -219,7 +219,7 @@
 	NSArray* components= [time componentsSeparatedByString:@":"];
 	//add hours
 	CFTimeInterval converted=[[components objectAtIndex:0] intValue]*60;
-	//add minutes
+	//add minutes 
 	converted+=[[components objectAtIndex:1] intValue];
 	return converted;
 }

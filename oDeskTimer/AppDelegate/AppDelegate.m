@@ -35,7 +35,8 @@
 @synthesize rwgTextFieldMounth, otherTinersTextFieldMounth, totalTimeMounth;
 @synthesize timeItem,appMenu,menuFont;
 
--(void) loadFonts{
+-(void) loadFonts
+{
 	NSString *fontFilePath = [[NSBundle mainBundle] resourcePath];
 	NSURL *fontsURL = [NSURL fileURLWithPath:fontFilePath];
 	NSLog(@"%@",fontFilePath);
@@ -55,7 +56,6 @@
 }
 
 - (void)activateStatusMenu
-
 {
 	[self loadFonts];
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
@@ -71,13 +71,13 @@
     [self.timeItem setMenu:self.appMenu];
 }
 
--(void) updateTimeOnMenu:(NSString *) text{
+-(void) updateTimeOnMenu:(NSString *) text
+{
 	[self loadFonts];
 	//setup attributed title
 	NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:text];
 	[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
 	[self.timeItem setAttributedTitle:menuAttributedTitle];
-
 }
 
 
@@ -116,72 +116,60 @@
 		[self.inProgressWeek  startAnimation:self];
 		[self.inProgressMonth startAnimation:self];
 		
+		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			dispatch_async(dispatch_get_current_queue(), ^{
-				
-				NSDictionary* times = [self.oDeskTimer todayTotalTime:@"day"];
+			
+			//111111111111111111111111111111111111
+			NSDictionary* times = [self.oDeskTimer todayTotalTime:@"day"];
+			//get ruswizards counter
+			NSString * rwgTime=[times objectForKey:RWG];
+			if (!rwgTime) {rwgTime=@"00:00";}
+			NSString *otherTime = [oDesk convertTimeToString:([oDesk convertToTime:totalTime2] - [oDesk convertToTime:rwgTime])];
+			
+			
+			//2222222222222222222222222222222322222222
+			NSDictionary* times2 = [self.oDeskTimer todayTotalTime:@"week"];
+			//get ruswizards counter
+			NSString * rwgTime2=[times2 objectForKey:RWG];
+			if (!rwgTime2) {
+				rwgTime2=@"00:00";
+			}
+			NSString *otherTime2 = [oDesk convertTimeToString:([oDesk convertToTime:totalTime3] - [oDesk convertToTime:rwgTime2])];
+
+			
+			//333333333333333333333333333333
+			NSDictionary* times3 = [self.oDeskTimer todayTotalTime:@"mounth"];
+			//get ruswizards counter
+			NSString * rwgTime3=[times3 objectForKey:RWG];
+			if (!rwgTime3) {
+				rwgTime3=@"00:00";
+			}
+			NSString *otherTime3 = [oDesk convertTimeToString:([oDesk convertToTime:totalTime4] - [oDesk convertToTime:rwgTime3])];
+			
+			
+			
+			dispatch_sync(dispatch_get_main_queue(), ^{
 				
 				[self.totalTime setStringValue:[NSString stringWithFormat:@"%@", totalTime2]];
-				
-				//get ruswizards counter
-				NSString * rwgTime=[times objectForKey:RWG];
-				if (!rwgTime) {
-					rwgTime=@"00:00";
-				}
 				[self.rwgTextField setStringValue:[NSString stringWithFormat:@"%@", rwgTime]];
-				
-				NSString *otherTime = [oDesk convertTimeToString:([oDesk convertToTime:totalTime2] - [oDesk convertToTime:rwgTime])];
 				[self.otherTinersTextField setStringValue:otherTime];
-				
 				[self.inProgress stopAnimation:self];
-				
 				[self.timeItem setTitle:self.totalTime2];
-				
 				//set time to menu
 				[self updateTimeOnMenu:totalTime2];
-
 				
-				[self updateView];         
-			});
-		});	
-		
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			dispatch_async(dispatch_get_current_queue(), ^{
-				NSDictionary* times = [self.oDeskTimer todayTotalTime:@"week"];
 				
 				[self.totalTimeWeek setStringValue:[NSString stringWithFormat:@"%@", totalTime3]];
-				
-				//get ruswizards counter
-				NSString * rwgTime=[times objectForKey:RWG];
-				if (!rwgTime) {
-					rwgTime=@"00:00";
-				}
-				[self.rwgTextFieldWeek setStringValue:[NSString stringWithFormat:@"%@", rwgTime]];
-				
-				NSString *otherTime = [oDesk convertTimeToString:([oDesk convertToTime:totalTime3] - [oDesk convertToTime:rwgTime])];
-				[self.otherTinersTextFieldWeek setStringValue:otherTime];
+				[self.rwgTextFieldWeek setStringValue:[NSString stringWithFormat:@"%@", rwgTime2]];
+				[self.otherTinersTextFieldWeek setStringValue:otherTime2];
 				[self.inProgressWeek stopAnimation:self];
-				[self updateView];         
-			});
-		});
-		
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			dispatch_async(dispatch_get_current_queue(), ^{
-				NSDictionary* times = [self.oDeskTimer todayTotalTime:@"mounth"];
+				
 				
 				[self.totalTimeMounth setStringValue:[NSString stringWithFormat:@"%@", totalTime4]];
-				
-				//get ruswizards counter
-				NSString * rwgTime=[times objectForKey:RWG];
-				if (!rwgTime) {
-					rwgTime=@"00:00";
-				}
-				[self.rwgTextFieldMounth setStringValue:[NSString stringWithFormat:@"%@", rwgTime]];
-				
-				NSString *otherTime = [oDesk convertTimeToString:([oDesk convertToTime:totalTime4] - [oDesk convertToTime:rwgTime])];
-				[self.otherTinersTextFieldMounth setStringValue:otherTime];
+				[self.rwgTextFieldMounth setStringValue:[NSString stringWithFormat:@"%@", rwgTime3]];
+				[self.otherTinersTextFieldMounth setStringValue:otherTime3];
 				[self.inProgressMonth stopAnimation:self];
-				[self updateView];         
+				[self updateView];
 			});
 		});
 		
@@ -214,21 +202,14 @@
 	NSLog(@"%@ %@", self.login, self.pass);
 	[self.oDeskTimer login:self.login password:self.pass];
 	
-	//запускаем таймер на авто рефреш
+	//запускаем таймер на авто рефреш 
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:[ODPropertyManager manager].refreshTime*60 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
 	[self refreshTime];
 }
 
--(void) updateView{
-	//Ограничение на повторный вызов рефреша во время самого рефреша
-	static int i = 0;
-	i++;
-	
-	if (i == 3) 
-	{
-		i = 0;
-		isRefreshInProgress = NO;
-	}
+-(void) updateView
+{
+	isRefreshInProgress = NO;
 	
 	NSRect panelRect = self.TimerPanel.frame;
 	[self.TimerPanel setFrame:panelRect display:YES animate:NO];
