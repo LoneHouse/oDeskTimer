@@ -8,13 +8,13 @@
 
 #import "oDesk.h"
 #import "AppDelegate.h"
+#import "NSMutableString+RequestParameters.h"
 
 @interface oDesk()
 -(NSString *) doRequest:(NSString *) params URL:(NSString* )url;
 -(NSString *) loginClassicTimeAnalyze:(NSString *) counterName;
 -(NSArray *) getAllCounters;
-//-(CFTimeInterval) convertToTime:(NSString *) time;
--(NSString *) getTimeByDay: (NSString *) login counter:(NSString*) counter type:(NSString*) type;
+-(NSString *) getTimeByDay: (NSString *) login counter:(NSString*) counter type:(enum ODTimeRange) type;
 -(NSString *) URLEncodedString: (NSString *) string;
 @end
 
@@ -39,26 +39,25 @@
 //make login request
 -(NSString*)login:(NSString *)name password:(NSString *)password{
 	self.login=[NSString stringWithString:name];
+	
 	//create data to post
-	NSString* variables = [NSString stringWithFormat:@"username=%@&password=%@&action=%@",name,password,@"login"];
-	return [self doRequest:variables URL:@"https://www.odesk.com/login"];
+	NSMutableString* variables = [NSMutableString string];
+	[variables addParameter:kODParameterUsername withValue:name];
+	[variables addParameter:kODParameterPassword withValue:password];
+	[variables addParameter:kODParameterAction withValue:kODParameterActionLogin];
+	return [self doRequest:variables URL: kODURLLogin];
 }
 
 //make some request
--(NSString *)doRequest:(NSString *)params URL:(NSString *)url{
-	//create data to post
-	NSData* postVariables =
-	[params dataUsingEncoding:NSASCIIStringEncoding
-			allowLossyConversion:YES];
-	NSString* postLength =
-	[NSString stringWithFormat:@"%ld", [postVariables length]];
+-(NSString *)doRequest:(NSMutableString *)params URL:(NSString *)url{
 	//create request
 	NSMutableURLRequest * request=[[NSMutableURLRequest alloc]init];
 	[request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postVariables];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:[params postDataLength] forHTTPHeaderField:kODRequestContentLength];
+	[request setValue:kODRequestContentTypeValue forHTTPHeaderField:kODRequestContentType];
+	[request setHTTPBody:[params postData]];
+	
 	//send request
 	NSURLResponse * response=nil;
 	NSError *error=nil;
@@ -68,12 +67,11 @@
 									  error:&error];
 	
 	NSString * str=[[NSString alloc]initWithData:returnData encoding:NSUTF8StringEncoding];
-	
 	return str;
 }
 
 //calcule total time
--(NSDictionary *)todayTotalTime:type{
+-(NSDictionary *) todayTotalTime:(enum ODTimeRange) type{
 	NSMutableDictionary * timesByCounter=[[NSMutableDictionary alloc] init];
 	//get today date
 	NSDate *today=[NSDate date];
@@ -81,16 +79,13 @@
 	[dateFormat setDateFormat:@"MM/dd/YYYY"];
 	NSString *dateString = [dateFormat stringFromDate:today];
 	NSLog(@"%@",dateString);
-
+	
 	//get all counters in account
 	NSArray *counterNames=[self getAllCounters];
 	
 	CFTimeInterval totalInterval=0;
 	//get time by every counter and summ it
 	for (int i=0; i<[counterNames count]; i++) {
-		//get page with time
-//		NSString * str=[self loginClassicTimeAnalyze:[self URLEncodedString:[counterNames objectAtIndex:i]]];
-//		NSLog(@"%@",str);
 		//GET TIME
 		NSString * time=[self getTimeByDay: self.login counter:[counterNames objectAtIndex:i] type:type];
 		//add counter time to dictionary
@@ -98,17 +93,28 @@
 		
 		totalInterval+=[oDesk convertToTime:time];
 	}
-
+	
 	//return totalTime
 	AppDelegate *app = [[NSApplication sharedApplication] delegate];
-    if([type isEqualToString:@"day"])
-        app.totalTime2 = [oDesk convertTimeToString:totalInterval];
-    else {
-        if([type isEqualToString:@"week"])
-            app.totalTime3 = [oDesk convertTimeToString:totalInterval];
-        else
-            app.totalTime4 = [oDesk convertTimeToString:totalInterval];
-    }
+	switch (type) {
+		case ODTimeRangeDay:{
+			app.totalTime2 = [oDesk convertTimeToString:totalInterval];
+		}
+			break;
+			
+		case ODTimeRangeWeek:{
+			app.totalTime3 = [oDesk convertTimeToString:totalInterval];
+		}
+			break;
+			
+		case ODTimeRangeMonth:{
+			app.totalTime3 = app.totalTime4 = [oDesk convertTimeToString:totalInterval];
+		}
+			break;
+			
+		default:
+			break;
+	}
 	//return dictionary with counters and times
 	return timesByCounter;
 }
@@ -118,85 +124,90 @@
 	NSMutableArray * resultCounters= [[NSMutableArray alloc] init];
 	
 	//get page with counters
-	NSString * content= [self doRequest:@"" URL:@"https://www.odesk.com/team/scripts/login?initial=1"];
+	NSString * content= [self doRequest:@"" URL:kODURLCounters];
 	
 	//create regular expression
 	NSError *error;
-	NSRegularExpression* expression = [NSRegularExpression regularExpressionWithPattern:@"<option value=\"[\\w \\: \\- \\! \\* \\' \\( \\) \\; \\@ \\& \\= \\+ \\$ \\, \\/ \\? \\% \\#]{1,}" 
-																			    options:NSRegularExpressionCaseInsensitive
+	NSRegularExpression* expression = [NSRegularExpression regularExpressionWithPattern:kODRegExpCounters
+																				options:NSRegularExpressionCaseInsensitive
 																				  error:&error];
 	//find matches
-	NSArray * array=[expression matchesInString:content options:0 range:NSMakeRange(0, [content length])];
-	 
+	NSUInteger startSearch = 6329; // number of symbols before tab <select>
+	NSArray * matchesArray=[expression matchesInString:content options:0 range:NSMakeRange(0, [content length])];
+	
 	//create array with counters
-	for (NSTextCheckingResult* result in array){
+	for (NSTextCheckingResult* result in matchesArray){
+		NSLog(@"%@",content);
+		//15 is length of text "<option value=""
 		NSRange range=NSMakeRange(result.range.location+15, result.range.length-15);
 		
 		NSString * counterName=[content substringWithRange:range];
 		[resultCounters addObject:counterName];
-//		NSLog(@"%@",counterName);
 	}
 	return resultCounters;
 }
 
 //login to classic time analyzing
 -(NSString *) loginClassicTimeAnalyze: (NSString*) counterName{
-	NSString* variables = [NSString stringWithFormat:@"selected_company=%@&after_login_location=%@",counterName,@"http://www.odesk.com/team/scripts/report"];
-	return [self doRequest:variables URL:@"https://www.odesk.com/team/scripts/login?initial=1&after_login_location=http%3A%2F%2Fwww.odesk.com%2Fteam%2Fscripts%2Freport"];
+	NSMutableString *variables = [NSMutableString string];
+	[variables addParameter:kODParameterCompany withValue:counterName];
+	[variables addParameter:kODParameterAfterLoginLoc withValue:kODURLReport];
+	return [self doRequest:variables URL:kODURLClassicTimeAnalyze];
 }
 
--(NSString *)getTimeByDay:(NSString *)logn counter:(NSString *)counter type:(NSString *)type
-{	
-    NSString * url;
-    if([type isEqualToString:@"day"])
-    {
-        NSDate *date = [NSDate date];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MM/dd/YYYY"];
-        NSString *currentDate = [formatter stringFromDate:date];
-        url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@",[self URLEncodedString:counter],logn,currentDate,currentDate];
-    }
-    else 
-    {
-        if([type isEqualToString:@"week"])
-        {
-            NSDate *today = [NSDate date];
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"MM/dd/YYYY"];
-            NSString *dateString = [dateFormat stringFromDate:today];
-            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-            NSDateComponents *components = [gregorian components:NSWeekdayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:today];
-            [components setDay:([components day]-([components weekday]-2))];
-            NSDate *beginningOfWeek = [gregorian dateFromComponents:components];
-            NSDateFormatter *dateFormat_first = [[NSDateFormatter alloc] init];
-            [dateFormat_first setDateFormat:@"MM/dd/YYYY"];
-            NSString *dateString_first = [dateFormat_first stringFromDate:beginningOfWeek];
-            url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@",[self URLEncodedString:counter],logn,dateString_first,dateString];
-        }
-        else 
-        {
-            NSDate *date = [NSDate date];
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"MM/dd/YYYY"];
-            NSString *currentDate = [formatter stringFromDate:date];
-            
-            NSDate *dateOld = [NSDate date];
-            NSDateFormatter *formatterOld = [[NSDateFormatter alloc] init];
-            [formatterOld setDateFormat:@"MM/01/YYYY"];
-            NSString *stringOldDate = [formatterOld stringFromDate:dateOld];
-//			NSLog(@"%@",currentDate);
-            url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@", [self URLEncodedString:counter], logn,stringOldDate, currentDate];
-//			NSLog(@"%@", url);
-            
-        }
-    }
+-(NSString *)getTimeByDay:(NSString *)logn counter:(NSString *)counter type:(enum ODTimeRange)type
+{
+	NSString * url;
+	switch (type) {
+		case ODTimeRangeDay:{
+			NSDate *date = [NSDate date];
+			NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+			[formatter setDateFormat:@"MM/dd/YYYY"];
+			NSString *currentDate = [formatter stringFromDate:date];
+			url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@",[self URLEncodedString:counter],logn,currentDate,currentDate];
+		}
+			break;
+			
+		case ODTimeRangeWeek:{
+			NSDate *today = [NSDate date];
+			NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+			[dateFormat setDateFormat:@"MM/dd/YYYY"];
+			NSString *dateString = [dateFormat stringFromDate:today];
+			NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+			NSDateComponents *components = [gregorian components:NSWeekdayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:today];
+			[components setDay:([components day]-([components weekday]-2))];
+			NSDate *beginningOfWeek = [gregorian dateFromComponents:components];
+			NSDateFormatter *dateFormat_first = [[NSDateFormatter alloc] init];
+			[dateFormat_first setDateFormat:@"MM/dd/YYYY"];
+			NSString *dateString_first = [dateFormat_first stringFromDate:beginningOfWeek];
+			url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@",[self URLEncodedString:counter],logn,dateString_first,dateString];
+		}
+			break;
+			
+		case ODTimeRangeMonth:{
+			NSDate *date = [NSDate date];
+			NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+			[formatter setDateFormat:@"MM/dd/YYYY"];
+			NSString *currentDate = [formatter stringFromDate:date];
+			
+			NSDate *dateOld = [NSDate date];
+			NSDateFormatter *formatterOld = [[NSDateFormatter alloc] init];
+			[formatterOld setDateFormat:@"MM/01/YYYY"];
+			NSString *stringOldDate = [formatterOld stringFromDate:dateOld];
+			url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@", [self URLEncodedString:counter], logn,stringOldDate, currentDate];
+		}
+			break;
+			
+		default:
+			break;
+	}
+
 	NSString* variables = [NSString stringWithFormat:@"selected_company=%@",counter];
 	NSString* strResult= [self doRequest:variables URL:url];
 	
-//	NSLog(@"%@",strResult);
 	//create regular expression
 	NSError *error;
-	NSRegularExpression* expression =[NSRegularExpression regularExpressionWithPattern:@"<b>\\d{2,}:\\d{2}</b>" 
+	NSRegularExpression* expression =[NSRegularExpression regularExpressionWithPattern:@"<b>\\d{2,}:\\d{2}</b>"
 																			   options:NSRegularExpressionCaseInsensitive
 																				 error:&error];
 	//find matches
@@ -207,8 +218,9 @@
 		NSString* time=[self getTimeByDay:logn counter:counter type:type];
 		return time;
 	}
+	
 	//cut <b> and </b>
-    #define cut_len 3 /*длина тегов*/
+#define cut_len 3
 	rangeOfFirstMatch=NSMakeRange(rangeOfFirstMatch.location+cut_len, rangeOfFirstMatch.length-(cut_len*2)-1);
 	//get result string with time
 	NSString* time=[strResult substringWithRange:rangeOfFirstMatch];
@@ -219,7 +231,7 @@
 	NSArray* components= [time componentsSeparatedByString:@":"];
 	//add hours
 	CFTimeInterval converted=[[components objectAtIndex:0] intValue]*60;
-	//add minutes 
+	//add minutes
 	converted+=[[components objectAtIndex:1] intValue];
 	return converted;
 }
@@ -246,11 +258,10 @@
 - (NSString *) URLEncodedString: (NSString *) string {
 	CFStringRef preprocessedString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (__bridge CFStringRef) string, CFSTR(""), kCFStringEncodingUTF8);
 	NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-																			   preprocessedString,
-																			   NULL,
-																			   CFSTR("!*'();:@&=+$,/?%#[]-"),
-																			   kCFStringEncodingUTF8);
-	//CFRelease(preprocessedString);
+																							 preprocessedString,
+																							 NULL,
+																							 CFSTR("!*'();:@&=+$,/?%#[]-"),
+																							 kCFStringEncodingUTF8);
 	return result;
 }
 

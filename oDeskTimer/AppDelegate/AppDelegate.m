@@ -10,6 +10,7 @@
 #import "ODPropertyManager.h"
 #import "ODPreferencesController.h"
 #import "ODTimerWindowController.h"
+#import "Constants.h"
 
 @interface AppDelegate ()
 {
@@ -120,7 +121,7 @@
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			
 			//111111111111111111111111111111111111
-			NSDictionary* times = [self.oDeskTimer todayTotalTime:@"day"];
+			NSDictionary* times = [self.oDeskTimer todayTotalTime:ODTimeRangeDay];
 			//get ruswizards counter
 			NSString * rwgTime=[times objectForKey:RWG];
 			if (!rwgTime) {rwgTime=@"00:00";}
@@ -128,7 +129,7 @@
 			
 			
 			//2222222222222222222222222222222322222222
-			NSDictionary* times2 = [self.oDeskTimer todayTotalTime:@"week"];
+			NSDictionary* times2 = [self.oDeskTimer todayTotalTime:ODTimeRangeWeek];
 			//get ruswizards counter
 			NSString * rwgTime2=[times2 objectForKey:RWG];
 			if (!rwgTime2) {
@@ -138,7 +139,7 @@
 
 			
 			//333333333333333333333333333333
-			NSDictionary* times3 = [self.oDeskTimer todayTotalTime:@"mounth"];
+			NSDictionary* times3 = [self.oDeskTimer todayTotalTime:ODTimeRangeMonth];
 			//get ruswizards counter
 			NSString * rwgTime3=[times3 objectForKey:RWG];
 			if (!rwgTime3) {
