@@ -9,26 +9,28 @@
 #import "oDesk.h"
 #import "AppDelegate.h"
 #import "NSMutableString+RequestParameters.h"
+#import "Reachability.h"
 
 @interface oDesk()
 -(NSString *) doRequest:(NSString *) params URL:(NSString* )url;
 -(NSString *) loginClassicTimeAnalyze:(NSString *) counterName;
 -(NSArray *) getAllCounters;
--(NSString *) getTimeByDay: (NSString *) login counter:(NSString*) counter type:(enum ODTimeRange) type;
 -(NSString *) URLEncodedString: (NSString *) string;
 @end
 
 @implementation oDesk
-@synthesize login;
+@synthesize login = _login;
 
 -(id)init{
-	if(self==[super init])
-	{
+	if(self==[super init]){
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(internetStatusChanged:) name:kReachabilityChangedNotification object:nil];
+		Reachability *reachability = [Reachability reachabilityWithHostname:@"www.odesk.com"];
+		[reachability startNotifier];
 	}
 	return self;
 }
 
-+ (oDesk *)scharedManager
++ (oDesk *)sharedManager
 {
 	static dispatch_once_t once;
 	static oDesk *odesk;
@@ -57,6 +59,9 @@
 	[request setValue:[params postDataLength] forHTTPHeaderField:kODRequestContentLength];
 	[request setValue:kODRequestContentTypeValue forHTTPHeaderField:kODRequestContentType];
 	[request setHTTPBody:[params postData]];
+	if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidStart:)]) {
+		[self.delegate requestDidStart:request];
+	}
 	
 	//send request
 	NSURLResponse * response=nil;
@@ -67,19 +72,15 @@
 									  error:&error];
 	
 	NSString * str=[[NSString alloc]initWithData:returnData encoding:NSUTF8StringEncoding];
+	if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidFinished:)]) {
+		[self.delegate requestDidFinished:request];
+	}
 	return str;
 }
 
 //calcule total time
 -(NSDictionary *) todayTotalTime:(enum ODTimeRange) type{
 	NSMutableDictionary * timesByCounter=[[NSMutableDictionary alloc] init];
-	//get today date
-	NSDate *today=[NSDate date];
-	NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
-	[dateFormat setDateFormat:@"MM/dd/YYYY"];
-	NSString *dateString = [dateFormat stringFromDate:today];
-	NSLog(@"%@",dateString);
-	
 	//get all counters in account
 	NSArray *counterNames=[self getAllCounters];
 	
@@ -87,7 +88,7 @@
 	//get time by every counter and summ it
 	for (int i=0; i<[counterNames count]; i++) {
 		//GET TIME
-		NSString * time=[self getTimeByDay: self.login counter:[counterNames objectAtIndex:i] type:type];
+		NSString * time=[self getUserTime: self.login counter:[counterNames objectAtIndex:i] type:type];
 		//add counter time to dictionary
 		[timesByCounter setValue:time forKey:[counterNames objectAtIndex:i]];
 		
@@ -108,7 +109,7 @@
 			break;
 			
 		case ODTimeRangeMonth:{
-			app.totalTime3 = app.totalTime4 = [oDesk convertTimeToString:totalInterval];
+			app.totalTime4 = [oDesk convertTimeToString:totalInterval];
 		}
 			break;
 			
@@ -132,14 +133,14 @@
 																				options:NSRegularExpressionCaseInsensitive
 																				  error:&error];
 	//find matches
-	NSUInteger startSearch = 6329; // number of symbols before tab <select>
-	NSArray * matchesArray=[expression matchesInString:content options:0 range:NSMakeRange(0, [content length])];
+	const NSUInteger startSearch = 6000; // number of symbols before tab <select> (for best performance)
+	NSArray * matchesArray=[expression matchesInString:content options:0 range:NSMakeRange(startSearch, [content length] - startSearch)];
 	
 	//create array with counters
 	for (NSTextCheckingResult* result in matchesArray){
-		NSLog(@"%@",content);
+		const NSUInteger optionLenght = 15;
 		//15 is length of text "<option value=""
-		NSRange range=NSMakeRange(result.range.location+15, result.range.length-15);
+		NSRange range=NSMakeRange(result.range.location + optionLenght, result.range.length - optionLenght);
 		
 		NSString * counterName=[content substringWithRange:range];
 		[resultCounters addObject:counterName];
@@ -155,46 +156,48 @@
 	return [self doRequest:variables URL:kODURLClassicTimeAnalyze];
 }
 
--(NSString *)getTimeByDay:(NSString *)logn counter:(NSString *)counter type:(enum ODTimeRange)type
+-(NSString *) formattedStringFromDate{
+	NSDate *date = [NSDate date];
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:kODDateFormat];
+	NSString *currentDate = [formatter stringFromDate:date];
+	return currentDate;
+}
+
+-(NSString *)getUserTime:(NSString *)logn counter:(NSString *)counter type:(enum ODTimeRange)type
 {
 	NSString * url;
 	switch (type) {
 		case ODTimeRangeDay:{
-			NSDate *date = [NSDate date];
-			NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-			[formatter setDateFormat:@"MM/dd/YYYY"];
-			NSString *currentDate = [formatter stringFromDate:date];
-			url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@",[self URLEncodedString:counter],logn,currentDate,currentDate];
+			NSString *currentDate = [self formattedStringFromDate];
+			url=[NSString stringWithFormat:kODURLGetTime,[self URLEncodedString:counter],logn,currentDate,currentDate];
 		}
 			break;
 			
 		case ODTimeRangeWeek:{
-			NSDate *today = [NSDate date];
-			NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-			[dateFormat setDateFormat:@"MM/dd/YYYY"];
-			NSString *dateString = [dateFormat stringFromDate:today];
+
+			NSString *dateString = [self formattedStringFromDate];
 			NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-			NSDateComponents *components = [gregorian components:NSWeekdayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:today];
+			NSDateComponents *components = [gregorian components:NSWeekdayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:[NSDate date]];
 			[components setDay:([components day]-([components weekday]-2))];
 			NSDate *beginningOfWeek = [gregorian dateFromComponents:components];
 			NSDateFormatter *dateFormat_first = [[NSDateFormatter alloc] init];
-			[dateFormat_first setDateFormat:@"MM/dd/YYYY"];
+			[dateFormat_first setDateFormat:kODDateFormat];
 			NSString *dateString_first = [dateFormat_first stringFromDate:beginningOfWeek];
-			url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@",[self URLEncodedString:counter],logn,dateString_first,dateString];
+			
+			url=[NSString stringWithFormat: kODURLGetTime,[self URLEncodedString:counter],logn,dateString_first,dateString];
 		}
 			break;
 			
 		case ODTimeRangeMonth:{
-			NSDate *date = [NSDate date];
-			NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-			[formatter setDateFormat:@"MM/dd/YYYY"];
-			NSString *currentDate = [formatter stringFromDate:date];
+
+			NSString *currentDate = [self formattedStringFromDate];
 			
 			NSDate *dateOld = [NSDate date];
 			NSDateFormatter *formatterOld = [[NSDateFormatter alloc] init];
-			[formatterOld setDateFormat:@"MM/01/YYYY"];
+			[formatterOld setDateFormat:kODDateMonthFormat];
 			NSString *stringOldDate = [formatterOld stringFromDate:dateOld];
-			url=[NSString stringWithFormat:@"https://www.odesk.com/team/scripts/report?company_id=%@&type=Chart&range=custom&user_id=%@&action=choose_custom_range&vs_users=&actually=1&start_date=%@&end_date=%@", [self URLEncodedString:counter], logn,stringOldDate, currentDate];
+			url=[NSString stringWithFormat: kODURLGetTime, [self URLEncodedString:counter], logn,stringOldDate, currentDate];
 		}
 			break;
 			
@@ -202,28 +205,32 @@
 			break;
 	}
 
-	NSString* variables = [NSString stringWithFormat:@"selected_company=%@",counter];
-	NSString* strResult= [self doRequest:variables URL:url];
+	//do request
+	NSMutableString *request=[NSMutableString string];
+	[request addParameter:kODParameterCompany withValue:counter];
+	NSString* requestResult= [self doRequest:request URL:url];
+	
+	NSLog(@"%@",url);
 	
 	//create regular expression
 	NSError *error;
-	NSRegularExpression* expression =[NSRegularExpression regularExpressionWithPattern:@"<b>\\d{2,}:\\d{2}</b>"
+	NSRegularExpression* expression =[NSRegularExpression regularExpressionWithPattern:kODRegExpTime
 																			   options:NSRegularExpressionCaseInsensitive
 																				 error:&error];
 	//find matches
-	NSRange rangeOfFirstMatch =[expression rangeOfFirstMatchInString:strResult options:0 range:NSMakeRange(0, [strResult length])];
+	NSRange rangeOfFirstMatch = [expression rangeOfFirstMatchInString:requestResult options:0 range:NSMakeRange(0, [requestResult length])];
 	
 	//if bad request
-	if(rangeOfFirstMatch.length<5 || rangeOfFirstMatch.location>[strResult length]){
-		NSString* time=[self getTimeByDay:logn counter:counter type:type];
+	if(rangeOfFirstMatch.length < 5 || rangeOfFirstMatch.location>[requestResult length]){
+		NSString *time=[self getUserTime: logn counter: counter type: type];
 		return time;
 	}
 	
 	//cut <b> and </b>
 #define cut_len 3
-	rangeOfFirstMatch=NSMakeRange(rangeOfFirstMatch.location+cut_len, rangeOfFirstMatch.length-(cut_len*2)-1);
+	rangeOfFirstMatch=NSMakeRange(rangeOfFirstMatch.location + cut_len, rangeOfFirstMatch.length - (cut_len * 2) - 1);
 	//get result string with time
-	NSString* time=[strResult substringWithRange:rangeOfFirstMatch];
+	NSString *time=[requestResult substringWithRange: rangeOfFirstMatch];
 	return time;
 }
 
@@ -237,8 +244,8 @@
 }
 
 +(NSString*) convertTimeToString:(CFTimeInterval) time{
-	float hours=floor(time/60);
-	float minutes=time-hours*60;
+	float hours=floor(time / 60.0);
+	float minutes=time-hours * 60.0;
 	
 	NSMutableString * total=[NSMutableString stringWithFormat:@"%.0f:%.0f", hours,minutes];
 	
@@ -263,6 +270,30 @@
 																							 CFSTR("!*'();:@&=+$,/?%#[]-"),
 																							 kCFStringEncodingUTF8);
 	return result;
+}
+
+-(void)dealloc{
+	Reachability *reachability = [Reachability reachabilityWithHostname:@"www.odesk.com"];
+	[reachability stopNotifier];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+#pragma mark Reachability
+- (void) internetStatusChanged:(NSNotification*)note{
+	Reachability* reachability = [note object];
+	NetworkStatus networkStatus = reachability.currentReachabilityStatus;
+	
+	if (networkStatus == NotReachable)
+	{
+		if (self.delegate && [self.delegate respondsToSelector:@selector(internetConnectionDisconnected)]) {
+			[self.delegate internetConnectionDisconnected];
+		}
+	}
+	else{
+		if (self.delegate && [self.delegate respondsToSelector:@selector(internetConnectionEstablished)]) {
+			[self.delegate internetConnectionEstablished];
+		}
+	}
 }
 
 @end

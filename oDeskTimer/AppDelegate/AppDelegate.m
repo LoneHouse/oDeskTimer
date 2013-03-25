@@ -90,7 +90,7 @@
 	preferencesController = [[ODPreferencesController alloc] initWithWindowNibName:@"ODPreferencesController"];
 	
 	// Insert code here to initialize your application
-	self.oDeskTimer = [oDesk scharedManager];
+	self.oDeskTimer = [oDesk sharedManager];
 	
 	//auto login
 	self.TextFieldLogin.stringValue = [ODPropertyManager manager].login;

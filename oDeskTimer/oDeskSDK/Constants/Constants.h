@@ -17,12 +17,14 @@ enum ODTimeRange {
 };
 
 extern NSString *kODDateFormat;
+extern NSString *kODDateMonthFormat;
 
 #pragma mark URLs
 extern NSString *kODURLClassicTimeAnalyze;
 extern NSString *kODURLReport;
 extern NSString *kODURLLogin;
 extern NSString *kODURLCounters;
+extern NSString *kODURLGetTime;
 
 #pragma mark Request parameters
 extern NSString *kODParameterCompany;
@@ -40,4 +42,5 @@ extern NSString *kODRequestContentLength;
 
 #pragma mark patterns
 extern NSString *kODRegExpCounters;
+extern NSString *kODRegExpTime;
 @end
