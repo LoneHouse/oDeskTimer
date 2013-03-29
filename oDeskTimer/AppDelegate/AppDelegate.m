@@ -35,6 +35,16 @@
 @synthesize rwgTextFieldMounth, otherTinersTextFieldMounth, totalTimeMounth;
 @synthesize timeItem,appMenu,menuFont;
 
+
+#pragma mark - drop menu 
+
+
+- (void) updateDropMenu
+{
+    
+}
+
+
 -(void) loadFonts{
 	NSString *fontFilePath = [[NSBundle mainBundle] resourcePath];
 	NSURL *fontsURL = [NSURL fileURLWithPath:fontFilePath];
@@ -74,9 +84,9 @@
 -(void) updateTimeOnMenu:(NSString *) text{
 	[self loadFonts];
 	//setup attributed title
-	NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:text];
-	[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
-	[self.timeItem setAttributedTitle:menuAttributedTitle];
+//	NSMutableAttributedString *menuAttributedTitle=[[NSMutableAttributedString  alloc ] initWithString:text];
+//	[menuAttributedTitle addAttribute:NSFontAttributeName value:self.menuFont range:NSMakeRange(0, menuAttributedTitle.string.length)];
+//	[self.timeItem setAttributedTitle:menuAttributedTitle];
 
 }
 

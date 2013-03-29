@@ -19,6 +19,11 @@
 // основное окно
 @property (nonatomic, strong) IBOutlet NSWindow *window;
 
+//Выпадающее меню
+
+@property (unsafe_unretained) IBOutlet NSMenuItem *totalDay;
+@property (unsafe_unretained) IBOutlet NSMenuItem *totalWeek;
+@property (unsafe_unretained) IBOutlet NSMenuItem *totalMouth;
 
 //аутлеты основного окна
 @property (nonatomic, strong) IBOutlet NSTextField *TextFieldLogin;

@@ -36,4 +36,11 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
+#pragma mark - NSCollectionViewDelegate
+
+- (BOOL)collectionView:(NSCollectionView *)collectionView canDragItemsAtIndexes:(NSIndexSet *)indexes withEvent:(NSEvent *)event
+{
+    return NO;
+}
+
 @end
