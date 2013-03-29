@@ -85,6 +85,21 @@
     [self.timeItem setMenu:self.appMenu];
 }
 
+- (void) setStatusItemDayTime:(NSString*) day week:(NSString*) week mounth:(NSString*) mounth
+{
+	NSMenuItem * rootItem = [self.appMenu.itemArray objectAtIndex:0];
+	
+	NSMenuItem * itemDay = [rootItem.submenu.itemArray objectAtIndex:0];
+	itemDay.title = [NSString stringWithFormat:@"Day %@",day];
+	
+	NSMenuItem * itemWeek = [rootItem.submenu.itemArray objectAtIndex:1];
+	itemWeek.title = [NSString stringWithFormat:@"Week %@",week];
+	
+	NSMenuItem * itemMounth = [rootItem.submenu.itemArray objectAtIndex:2];
+	itemMounth.title = [NSString stringWithFormat:@"Mounth %@",mounth];
+	
+}
+
 -(void) updateTimeOnMenu:(NSString *) text
 {
 	[self loadFonts];
@@ -184,6 +199,7 @@
 				[self.otherTinersTextFieldMounth setStringValue:otherTime3];
 				[self.inProgressMonth stopAnimation:self];
 				[self updateView];
+				[self setStatusItemDayTime:rwgTime week:rwgTime2 mounth:rwgTime3];
 			});
 		});
 		
