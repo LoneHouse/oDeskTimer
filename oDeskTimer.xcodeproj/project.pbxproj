@@ -10,6 +10,11 @@
 		0506A0CF164CF53100084B1B /* oDeckIcon_menubar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0506A0CE164CF53100084B1B /* oDeckIcon_menubar.tiff */; };
 		0506A0D4164D03EE00084B1B /* ODTimerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0506A0D2164D03EE00084B1B /* ODTimerWindowController.m */; };
 		0506A0D5164D03EE00084B1B /* ODTimerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0506A0D3164D03EE00084B1B /* ODTimerWindowController.xib */; };
+		3028516016F09E9700AC616D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028515F16F09E9700AC616D /* Constants.m */; };
+		3028516316F0A4D800AC616D /* NSMutableString+RequestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028516216F0A4D800AC616D /* NSMutableString+RequestParameters.m */; };
+		308235F716FC544D0064CBBF /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 308235F616FC544D0064CBBF /* Reachability.m */; };
+		308235F916FC54F20064CBBF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308235F816FC54F20064CBBF /* SystemConfiguration.framework */; };
+		308235FB16FC54F80064CBBF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308235FA16FC54F80064CBBF /* CFNetwork.framework */; };
 		309EA997164C1E7900109565 /* DS_DIGI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 309EA996164C1E7900109565 /* DS_DIGI.TTF */; };
 		309EA9B3164C1F7700109565 /* DS_DIGIB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 309EA9B2164C1F7700109565 /* DS_DIGIB.TTF */; };
 		30F7D6C315598A4500F19DCB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F7D6C215598A4500F19DCB /* Cocoa.framework */; };
@@ -33,6 +38,14 @@
 		0506A0D1164D03EE00084B1B /* ODTimerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODTimerWindowController.h; sourceTree = "<group>"; };
 		0506A0D2164D03EE00084B1B /* ODTimerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODTimerWindowController.m; sourceTree = "<group>"; };
 		0506A0D3164D03EE00084B1B /* ODTimerWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ODTimerWindowController.xib; sourceTree = "<group>"; };
+		3028515E16F09E9700AC616D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Constants/Constants.h; sourceTree = "<group>"; };
+		3028515F16F09E9700AC616D /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = Constants/Constants.m; sourceTree = "<group>"; };
+		3028516116F0A4D800AC616D /* NSMutableString+RequestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableString+RequestParameters.h"; path = "NSString + RequestParameters/NSMutableString+RequestParameters.h"; sourceTree = "<group>"; };
+		3028516216F0A4D800AC616D /* NSMutableString+RequestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableString+RequestParameters.m"; path = "NSString + RequestParameters/NSMutableString+RequestParameters.m"; sourceTree = "<group>"; };
+		308235F516FC544D0064CBBF /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		308235F616FC544D0064CBBF /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		308235F816FC54F20064CBBF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		308235FA16FC54F80064CBBF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		309EA996164C1E7900109565 /* DS_DIGI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = DS_DIGI.TTF; sourceTree = "<group>"; };
 		309EA9B2164C1F7700109565 /* DS_DIGIB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = DS_DIGIB.TTF; sourceTree = "<group>"; };
 		30F7D6BE15598A4500F19DCB /* oDeskTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oDeskTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +80,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				308235FB16FC54F80064CBBF /* CFNetwork.framework in Frameworks */,
+				308235F916FC54F20064CBBF /* SystemConfiguration.framework in Frameworks */,
 				61AD17C2159EE2C500482574 /* ApplicationServices.framework in Frameworks */,
 				30F7D6E3155993CD00F19DCB /* WebKit.framework in Frameworks */,
 				30F7D6C315598A4500F19DCB /* Cocoa.framework in Frameworks */,
@@ -106,6 +121,8 @@
 		30F7D6C115598A4500F19DCB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				308235FA16FC54F80064CBBF /* CFNetwork.framework */,
+				308235F816FC54F20064CBBF /* SystemConfiguration.framework */,
 				30F7D6C215598A4500F19DCB /* Cocoa.framework */,
 				30F7D6C415598A4500F19DCB /* Other Frameworks */,
 			);
@@ -185,8 +202,14 @@
 		619D7518155D2E82003B4743 /* oDeskSDK */ = {
 			isa = PBXGroup;
 			children = (
+				308235F516FC544D0064CBBF /* Reachability.h */,
+				308235F616FC544D0064CBBF /* Reachability.m */,
 				61C72B70156170B3007FC49B /* oDesk.h */,
 				61C72B71156170B3007FC49B /* oDesk.m */,
+				3028515E16F09E9700AC616D /* Constants.h */,
+				3028515F16F09E9700AC616D /* Constants.m */,
+				3028516116F0A4D800AC616D /* NSMutableString+RequestParameters.h */,
+				3028516216F0A4D800AC616D /* NSMutableString+RequestParameters.m */,
 			);
 			path = oDeskSDK;
 			sourceTree = "<group>";
@@ -286,6 +309,9 @@
 				4FFB3DC615949908009012BA /* ODPreferencesController.m in Sources */,
 				61AD17C5159EEF1200482574 /* ODDraw2dManager.m in Sources */,
 				0506A0D4164D03EE00084B1B /* ODTimerWindowController.m in Sources */,
+				3028516016F09E9700AC616D /* Constants.m in Sources */,
+				3028516316F0A4D800AC616D /* NSMutableString+RequestParameters.m in Sources */,
+				308235F716FC544D0064CBBF /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +397,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "oDeskTimer/oDeskTimer-Prefix.pch";
 				INFOPLIST_FILE = "oDeskTimer/oDeskTimer-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -384,7 +410,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "oDeskTimer/oDeskTimer-Prefix.pch";
 				INFOPLIST_FILE = "oDeskTimer/oDeskTimer-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
