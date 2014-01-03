@@ -11,6 +11,7 @@
 #import "ODPreferencesController.h"
 #import "ODTimerWindowController.h"
 #import "Constants.h"
+#import "Reachability.h"
 
 @interface AppDelegate ()
 {
@@ -128,6 +129,8 @@
 		[self statrTimer:self];
 	}
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(internetStatusChanged:) name:kReachabilityChangedNotification object:nil];
+	
 	[self activateStatusMenu];
 }
 
@@ -136,73 +139,81 @@
 	[ODPropertyManager save];
 }
 
--(void)refreshTime{
+- (void)refreshTime {
 #define RWG @"kudos_soft"
-	if(login && !isRefreshInProgress)
-	{
+	Reachability *reachability = [Reachability reachabilityWithHostname:@"www.odesk.com"];
+	[reachability startNotifier];
+	NetworkStatus networkStatus = reachability.currentReachabilityStatus;
+	
+	if (login && !isRefreshInProgress && networkStatus != NotReachable) {
 		isRefreshInProgress = YES;
-		[self.inProgress      startAnimation:self];
-		[self.inProgressWeek  startAnimation:self];
+		[self.inProgress startAnimation:self];
+		[self.inProgressWeek startAnimation:self];
 		[self.inProgressMonth startAnimation:self];
 		
 		
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		    //111111111111111111111111111111111111
+		    NSDictionary *times = [self.oDeskTimer todayTotalTime:ODTimeRangeDay];
+		    //get ruswizards counter
+		    NSString *rwgTime = [times objectForKey:RWG];
 			
-			//111111111111111111111111111111111111
-			NSDictionary* times = [self.oDeskTimer todayTotalTime:ODTimeRangeDay];
-			//get ruswizards counter
-			NSString * rwgTime=[times objectForKey:RWG];
-			if (!rwgTime) {rwgTime=@"00:00";}
-			NSString *otherTime = [oDesk convertTimeToString:([oDesk convertToTime:totalTime2] - [oDesk convertToTime:rwgTime])];
-			
-			
-			//2222222222222222222222222222222322222222
-			NSDictionary* times2 = [self.oDeskTimer todayTotalTime:ODTimeRangeWeek];
-			//get ruswizards counter
-			NSString * rwgTime2=[times2 objectForKey:RWG];
-			if (!rwgTime2) {
-				rwgTime2=@"00:00";
+		    if (!rwgTime) {
+		        rwgTime = @"00:00";
 			}
-			NSString *otherTime2 = [oDesk convertTimeToString:([oDesk convertToTime:totalTime3] - [oDesk convertToTime:rwgTime2])];
-
 			
-			//333333333333333333333333333333
-			NSDictionary* times3 = [self.oDeskTimer todayTotalTime:ODTimeRangeMonth];
-			//get ruswizards counter
-			NSString * rwgTime3=[times3 objectForKey:RWG];
-			if (!rwgTime3) {
-				rwgTime3=@"00:00";
+		    NSString *otherTime = [oDesk convertTimeToString:([oDesk convertToTime:totalTime2] - [oDesk convertToTime:rwgTime])];
+			
+			
+		    //2222222222222222222222222222222322222222
+		    NSDictionary *times2 = [self.oDeskTimer todayTotalTime:ODTimeRangeWeek];
+		    //get ruswizards counter
+		    NSString *rwgTime2 = [times2 objectForKey:RWG];
+			
+		    if (!rwgTime2) {
+		        rwgTime2 = @"00:00";
 			}
-			NSString *otherTime3 = [oDesk convertTimeToString:([oDesk convertToTime:totalTime4] - [oDesk convertToTime:rwgTime3])];
+			
+		    NSString *otherTime2 = [oDesk convertTimeToString:([oDesk convertToTime:totalTime3] - [oDesk convertToTime:rwgTime2])];
+			
+			
+		    //333333333333333333333333333333
+		    NSDictionary *times3 = [self.oDeskTimer todayTotalTime:ODTimeRangeMonth];
+		    //get ruswizards counter
+		    NSString *rwgTime3 = [times3 objectForKey:RWG];
+			
+		    if (!rwgTime3) {
+		        rwgTime3 = @"00:00";
+			}
+			
+		    NSString *otherTime3 = [oDesk convertTimeToString:([oDesk convertToTime:totalTime4] - [oDesk convertToTime:rwgTime3])];
 			
 			
 			
-			dispatch_sync(dispatch_get_main_queue(), ^{
-				
-				[self.totalTime setStringValue:[NSString stringWithFormat:@"%@", totalTime2]];
-				[self.rwgTextField setStringValue:[NSString stringWithFormat:@"%@", rwgTime]];
-				[self.otherTinersTextField setStringValue:otherTime];
-				[self.inProgress stopAnimation:self];
-				[self.timeItem setTitle:self.totalTime2];
-				//set time to menu
-				[self updateTimeOnMenu:totalTime2];
-				
-				
-				[self.totalTimeWeek setStringValue:[NSString stringWithFormat:@"%@", totalTime3]];
-				[self.rwgTextFieldWeek setStringValue:[NSString stringWithFormat:@"%@", rwgTime2]];
-				[self.otherTinersTextFieldWeek setStringValue:otherTime2];
-				[self.inProgressWeek stopAnimation:self];
+		    dispatch_sync(dispatch_get_main_queue(), ^{
+		        [self.totalTime setStringValue:[NSString stringWithFormat:@"%@", totalTime2]];
+		        [self.rwgTextField setStringValue:[NSString stringWithFormat:@"%@", rwgTime]];
+		        [self.otherTinersTextField setStringValue:otherTime];
+		        [self.inProgress stopAnimation:self];
+		        [self.timeItem setTitle:self.totalTime2];
+		        //set time to menu
+		        [self updateTimeOnMenu:totalTime2];
 				
 				
-				[self.totalTimeMounth setStringValue:[NSString stringWithFormat:@"%@", totalTime4]];
-				[self.rwgTextFieldMounth setStringValue:[NSString stringWithFormat:@"%@", rwgTime3]];
-				[self.otherTinersTextFieldMounth setStringValue:otherTime3];
-				[self.inProgressMonth stopAnimation:self];
-				[self updateView];
-				[self setStatusItemDayTime:rwgTime week:rwgTime2 mounth:rwgTime3];
+		        [self.totalTimeWeek setStringValue:[NSString stringWithFormat:@"%@", totalTime3]];
+		        [self.rwgTextFieldWeek setStringValue:[NSString stringWithFormat:@"%@", rwgTime2]];
+		        [self.otherTinersTextFieldWeek setStringValue:otherTime2];
+		        [self.inProgressWeek stopAnimation:self];
+				
+				
+		        [self.totalTimeMounth setStringValue:[NSString stringWithFormat:@"%@", totalTime4]];
+		        [self.rwgTextFieldMounth setStringValue:[NSString stringWithFormat:@"%@", rwgTime3]];
+		        [self.otherTinersTextFieldMounth setStringValue:otherTime3];
+		        [self.inProgressMonth stopAnimation:self];
+		        [self updateView];
+		        [self setStatusItemDayTime:rwgTime week:rwgTime2 mounth:rwgTime3];
 			});
 		});
-		
 	}
 }
 
@@ -254,6 +265,23 @@
 - (void)showPreferences:(id)sender
 {
 	[preferencesController showWindow:self];
+}
+
+#pragma mark Reachability
+- (void) internetStatusChanged:(NSNotification*)note{
+	Reachability* reachability = [note object];
+	NetworkStatus networkStatus = reachability.currentReachabilityStatus;
+	
+	if (networkStatus == NotReachable)
+	{
+		NSImage * icon = [NSImage imageNamed:@"oDeckIcon_menubar_red.tiff"];
+		[self.timeItem setImage:icon];
+		[[NSAlert alertWithMessageText:@"Internet connection disappears! Time will be refreshed automatically when internet connection appers." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@""] runModal];
+	}
+	else{
+		NSImage * icon = [NSImage imageNamed:@"oDeckIcon_menubar.tiff"];
+		[self.timeItem setImage:icon];
+	}
 }
 
 @end
