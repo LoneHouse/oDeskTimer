@@ -10,8 +10,8 @@
 
 @implementation Constants
 
-const NSString *kODDateFormat = @"MM/dd/YYYY";
-const NSString *kODDateMonthFormat = @"MM/01/YYYY";
+const NSString *kODDateFormat = @"MM/dd/yyyy";
+const NSString *kODDateMonthFormat = @"MM/01/yyyy";
 
 #pragma mark URLs
 const NSString *kODURLClassicTimeAnalyze = @"https://www.odesk.com/team/scripts/login?initial=1&after_login_location=http%3A%2F%2Fwww.odesk.com%2Fteam%2Fscripts%2Freport";
@@ -36,6 +36,6 @@ const NSString *kODRequestContentLength =@"Content-Length";
 
 #pragma mark patterns
 const NSString *kODRegExpCounters = @"<option value=\"[\\w \\: \\- \\! \\* \\' \\( \\) \\; \\@ \\& \\= \\+ \\$ \\, \\/ \\? \\% \\#]{1,}";
-const NSString *kODRegExpTime = @"<b>\\d{2,}:\\d{2}</b>";
+const NSString *kODRegExpTime = @"<b>\\d{2,}:\\d{2,}</b>";
 
 @end
